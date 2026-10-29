@@ -1,0 +1,98 @@
+2026-10-29 16:05:59,777 - INFO - Creating Vendor Summary Table.....
+2026-10-29 16:06:39,332 - INFO -    VendorNumber                   VendorName  Brand              Description  \
+0          1128  BROWN-FORMAN CORP             1233  Jack Daniels No 7 Black   
+1          4425        MARTIGNETTI COMPANIES   3405    Tito's Handmade Vodka   
+2         17035  PERNOD RICARD USA             8068         Absolut 80 Proof   
+3          3960  DIAGEO NORTH AMERICA INC      4261   Capt Morgan Spiced Rum   
+4          3960  DIAGEO NORTH AMERICA INC      3545          Ketel One Vodka   
+
+   PurchasePrice  ActualPrice Volume  TotalPurchaseQuantity  \
+0          26.27        36.99   1750                 145080   
+1          23.19        28.99   1750                 164038   
+2          18.24        24.99   1750                 187407   
+3          16.17        22.99   1750                 201682   
+4          21.89        29.99   1750                 138109   
+
+   TotalPurchaseDollars  TotalSalesQuantity  TotalSalesDollars  \
+0            3811251.60            142049.0         5101919.51   
+1            3804041.22            160247.0         4819073.49   
+2            3418303.68            187140.0         4538120.60   
+3            3261197.94            200412.0         4475972.88   
+4            3023206.01            135838.0         4223107.62   
+
+   TotalSalesPrice  TotalExciseTax  FreightCost  
+0        672819.31       260999.20     68601.68  
+1        561512.37       294438.66    144929.24  
+2        461140.15       343854.07    123780.22  
+3        420050.01       368242.80    257032.07  
+4        545778.28       249587.83    257032.07  
+2026-10-29 16:06:39,345 - INFO - Cleaning Data.....
+2026-10-29 16:06:39,362 - INFO -    VendorNumber                VendorName  Brand              Description  \
+0          1128         BROWN-FORMAN CORP   1233  Jack Daniels No 7 Black   
+1          4425     MARTIGNETTI COMPANIES   3405    Tito's Handmade Vodka   
+2         17035         PERNOD RICARD USA   8068         Absolut 80 Proof   
+3          3960  DIAGEO NORTH AMERICA INC   4261   Capt Morgan Spiced Rum   
+4          3960  DIAGEO NORTH AMERICA INC   3545          Ketel One Vodka   
+
+   PurchasePrice  ActualPrice  Volume  TotalPurchaseQuantity  \
+0          26.27        36.99  1750.0                 145080   
+1          23.19        28.99  1750.0                 164038   
+2          18.24        24.99  1750.0                 187407   
+3          16.17        22.99  1750.0                 201682   
+4          21.89        29.99  1750.0                 138109   
+
+   TotalPurchaseDollars  TotalSalesQuantity  TotalSalesDollars  \
+0            3811251.60            142049.0         5101919.51   
+1            3804041.22            160247.0         4819073.49   
+2            3418303.68            187140.0         4538120.60   
+3            3261197.94            200412.0         4475972.88   
+4            3023206.01            135838.0         4223107.62   
+
+   TotalSalesPrice  TotalExciseTax  FreightCost  GrossProfit  ProfitMargin  \
+0        672819.31       260999.20     68601.68   1290667.91     25.297693   
+1        561512.37       294438.66    144929.24   1015032.27     21.062810   
+2        461140.15       343854.07    123780.22   1119816.92     24.675786   
+3        420050.01       368242.80    257032.07   1214774.94     27.139908   
+4        545778.28       249587.83    257032.07   1199901.61     28.412764   
+
+   StockTurnover  SalesToPurchaseRatio  
+0       0.979108              1.338647  
+1       0.976890              1.266830  
+2       0.998575              1.327594  
+3       0.993703              1.372493  
+4       0.983556              1.396897  
+2026-10-29 16:06:39,368 - INFO - Ingesting data.....
+2026-10-29 16:06:39,449 - INFO - Completed
+2026-10-29 18:14:21,096 - INFO - Starting vendor summary creation
+2026-10-29 18:15:01,009 - ERROR - Vendor summary failed
+Traceback (most recent call last):
+  File "c:\Users\HRUSHI\Desktop\PROJECTS\ds-env\Lib\site-packages\pandas\io\sql.py", line 2702, in execute
+    cur.execute(sql, *args)
+sqlite3.OperationalError: database table is locked
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\HRUSHI\Desktop\PROJECTS\data\get_vendor_summary.py", line 225, in <module>
+    total_rows = create_vendor_summary(conn)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\HRUSHI\Desktop\PROJECTS\data\get_vendor_summary.py", line 185, in create_vendor_summary
+    clean_df.to_sql(
+  File "c:\Users\HRUSHI\Desktop\PROJECTS\ds-env\Lib\site-packages\pandas\core\generic.py", line 3052, in to_sql
+    return sql.to_sql(
+           ^^^^^^^^^^^
+  File "c:\Users\HRUSHI\Desktop\PROJECTS\ds-env\Lib\site-packages\pandas\io\sql.py", line 841, in to_sql
+    return pandas_sql.to_sql(
+           ^^^^^^^^^^^^^^^^^^
+  File "c:\Users\HRUSHI\Desktop\PROJECTS\ds-env\Lib\site-packages\pandas\io\sql.py", line 2879, in to_sql
+    table.create()
+  File "c:\Users\HRUSHI\Desktop\PROJECTS\ds-env\Lib\site-packages\pandas\io\sql.py", line 990, in create
+    self.pd_sql.drop_table(self.name, self.schema)
+  File "c:\Users\HRUSHI\Desktop\PROJECTS\ds-env\Lib\site-packages\pandas\io\sql.py", line 2901, in drop_table
+    self.execute(drop_sql).close()
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\HRUSHI\Desktop\PROJECTS\ds-env\Lib\site-packages\pandas\io\sql.py", line 2714, in execute
+    raise ex from exc
+pandas.errors.DatabaseError: Execution failed on sql 'DROP TABLE "vendor_sales_summary"': database table is locked
+2026-10-29 18:21:09,807 - INFO - Vendor Summary Completed
+2026-10-29 18:21:09,807 - INFO - Execution Time: 0.65 minutes
